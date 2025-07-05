@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { AppResponseInterceptor } from './common/app-response.interceptor'
-import { AppExceptionFilter } from './common/app-exception.filter'
+import { AppResponseInterceptor } from './common/interceptors/app-response.interceptor'
+import { AppExceptionFilter } from './common/filters/app-exception.filter'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)

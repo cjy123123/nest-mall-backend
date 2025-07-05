@@ -37,7 +37,7 @@ export class AppExceptionFilter implements ExceptionFilter {
       code: status,
       data: null,
       url: request.url,
-      date: dayjs().format('YYYY年MM月DD日 HH:mm:ss'), // 使用英文半角冒号
+      date: dayjs().format('YYYY年MM月DD日 HH:mm:ss'),
     })
   }
 }
