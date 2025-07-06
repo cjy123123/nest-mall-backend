@@ -25,6 +25,7 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
+    "@prisma/client": "6.11.1",
     "dayjs": "^1.11.13",
     "nanoid": "^5.1.5",
     "reflect-metadata": "^0.2.2",
