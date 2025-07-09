@@ -25,15 +25,19 @@ export class AppResponseInterceptor<T> implements NestInterceptor<T, Response<T>
       map((data) => {
         const { message, pageSize, page, total, data: restData, ...rest } = data
 
-        return {
+        const result = {
           success: true,
-          message: message ?? '请求成功',
+          message: message ?? '请求成功！',
           code: 0,
           data: restData ?? (Object.keys(rest).length > 0 ? rest : null),
           pageSize,
           page,
           total,
         }
+
+        console.log(result)
+
+        return result
       }),
     )
   }
