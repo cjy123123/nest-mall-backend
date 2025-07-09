@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { UserLoginDto, UserRegisterDto } from './dto/user.dto'
+import { UserLoginDto, UserRegisterDto, UserUpdateDto } from './dto/user.dto'
 import { ConfigService } from '@nestjs/config'
 import { HttpService } from '@nestjs/axios'
 import { lastValueFrom } from 'rxjs'
@@ -62,5 +62,38 @@ export class UserService {
     })
 
     return user
+  }
+
+  async update(userInfo: UserUpdateDto, id: number) {
+    try {
+      await this.prismaService.user.update({
+        where: { id },
+        data: {
+          username: userInfo.username,
+          avatar: userInfo.avatar,
+          phone: userInfo.phone,
+        },
+      })
+    } catch {
+      throw new BadRequestException('修改失败！')
+    }
+
+    return {
+      message: '修改成功！',
+    }
+  }
+
+  async delete(id: number) {
+    try {
+      await this.prismaService.user.delete({
+        where: { id },
+      })
+    } catch {
+      throw new BadRequestException('删除失败！')
+    }
+
+    return {
+      message: '删除成功！',
+    }
   }
 }
