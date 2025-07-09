@@ -23,23 +23,16 @@ export class AppResponseInterceptor<T> implements NestInterceptor<T, Response<T>
 
     return next.handle().pipe(
       map((data) => {
-        // 处理data是一个对象或数组的情况，能够自定义message
-        const { message, ...otherData } = data
-
-        if (message) {
-          return {
-            success: true,
-            message,
-            code: 0,
-            data: otherData?.data ?? otherData ?? null,
-          }
-        }
+        const { message, pageSize, page, total, data: restData, ...rest } = data
 
         return {
           success: true,
-          message: '请求成功',
+          message: message ?? '请求成功',
           code: 0,
-          data,
+          data: restData ?? (Object.keys(rest).length > 0 ? rest : null),
+          pageSize,
+          page,
+          total,
         }
       }),
     )
