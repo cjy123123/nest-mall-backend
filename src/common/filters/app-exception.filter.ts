@@ -31,13 +31,17 @@ export class AppExceptionFilter implements ExceptionFilter {
       message = exception.message
     }
 
-    response.status(status).json({
+    const result = {
       success: false,
       message,
       code: status,
       data: null,
       url: request.url,
       date: dayjs().format('YYYY年MM月DD日 HH:mm:ss'),
-    })
+    }
+
+    console.error(result)
+
+    response.status(status).json(result)
   }
 }
