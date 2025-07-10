@@ -5,6 +5,7 @@ import { UserModule } from './modules/user/user.module'
 import { PrismaModule } from './modules/prisma/prisma.module'
 import { CategoryModule } from './modules/category/category.module'
 import { GoodsModule } from './modules/goods/goods.module'
+import { CartModule } from './modules/cart/cart.module'
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { GoodsModule } from './modules/goods/goods.module'
     UserModule,
     PrismaModule,
     CategoryModule,
+    CartModule,
     GoodsModule,
     ConfigModule.forRoot({
       isGlobal: true,

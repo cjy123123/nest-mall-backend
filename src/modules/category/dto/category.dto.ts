@@ -3,7 +3,7 @@ import { Type } from 'class-transformer'
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class CreateCategoryDto {
-  @ApiProperty({ description: '分类名称' })
+  @ApiProperty({ description: '分类名称', default: '强烈推荐' })
   @IsNotEmpty({ message: '分类名称不能为空' })
   @IsString()
   name: string

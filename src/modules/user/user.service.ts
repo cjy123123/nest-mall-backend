@@ -61,6 +61,15 @@ export class UserService {
       },
     })
 
+    // 创建购物车
+    const cart = await this.prismaService.cart.create({
+      data: {
+        userId: user.id,
+      },
+    })
+
+    console.log('成功创建购物车：', cart)
+
     return user
   }
 

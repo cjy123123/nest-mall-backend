@@ -17,19 +17,13 @@ import type { Response, Request } from 'express'
  */
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
-  catch(exception: any, host: ArgumentsHost) {
+  catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
     const request = ctx.getRequest<Request>()
 
-    let status = HttpStatus.INTERNAL_SERVER_ERROR
-    let message = '服务器内部错误'
-
-    // 处理 HttpException 类型异常
-    if (exception instanceof HttpException) {
-      status = exception.getStatus()
-      message = exception.message
-    }
+    const status = exception.getStatus?.() ?? HttpStatus.INTERNAL_SERVER_ERROR
+    const message = exception.message ?? '服务器内部错误'
 
     const result = {
       success: false,
