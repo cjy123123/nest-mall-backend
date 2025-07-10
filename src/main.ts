@@ -39,7 +39,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new AppResponseInterceptor())
   // 全局异常过滤器
   app.useGlobalFilters(new AppExceptionFilter())
-
+  // 全局路由前缀
+  app.setGlobalPrefix('api')
   await app.listen(process.env.PORT ?? 3000)
 }
 
