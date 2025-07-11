@@ -8,6 +8,7 @@ import {
   Param,
   Query,
   ParseIntPipe,
+  Put,
 } from '@nestjs/common'
 import {
   ApiTags,
@@ -17,6 +18,7 @@ import {
   ApiOkResponse,
   ApiExcludeController,
   ApiExcludeEndpoint,
+  ApiBody,
 } from '@nestjs/swagger'
 import { CategoryService } from './category.service'
 import {
@@ -24,12 +26,32 @@ import {
   UpdateCategoryDto,
   CategoryQueryDto,
   CategoryListResponseDto,
+  UpdateRecommendCategoryDto,
 } from './dto/category.dto'
 
 @Controller('category')
 @ApiTags('商品分类')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
+
+  // 首页 - 推荐分类列表
+  @Get('recommend')
+  @ApiOperation({ summary: '首页 - 推荐分类列表' })
+  getRecommendList() {
+    return this.categoryService.getRecommendList()
+  }
+
+  // 首页 - 修改推荐分类
+  @Put('recommend/:id')
+  @ApiOperation({ summary: '修改推荐分类' })
+  @ApiParam({ name: 'id', description: '分类ID' })
+  @ApiBody({ type: UpdateRecommendCategoryDto })
+  updateRecommendCategory(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() { isRecommend }: UpdateRecommendCategoryDto,
+  ) {
+    return this.categoryService.updateRecommendCategory(id, isRecommend)
+  }
 
   @Post()
   @ApiOperation({ summary: '创建分类' })

@@ -62,3 +62,10 @@ export class CategoryListResponseDto {
   @ApiProperty({ description: '每页数量' })
   pageSize: number
 }
+
+export class UpdateRecommendCategoryDto {
+  @ApiProperty({ description: '是否推荐' })
+  @IsNotEmpty({ message: '是否推荐不能为空' })
+  @Type(() => Boolean)
+  isRecommend: boolean
+}

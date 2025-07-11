@@ -14,6 +14,7 @@ async function bootstrap() {
 
   // Swagger配置
   const swaggerConfig = new DocumentBuilder()
+    .addServer('/api')
     .setTitle('油车港小程序接口文档')
     .setDescription('xjc调试用')
     .setVersion('1')

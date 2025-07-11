@@ -77,4 +77,31 @@ export class CategoryService {
       throw new NotFoundException(`分类ID ${id} 不存在`)
     }
   }
+
+  async getRecommendList() {
+    const categories = await this.prisma.category.findMany({
+      where: { isRecommend: true },
+      include: { goods: true },
+    })
+
+    return {
+      data: categories,
+    }
+  }
+
+  async updateRecommendCategory(id: number, isRecommend: boolean) {
+    try {
+      await this.prisma.category.update({
+        where: { id },
+        data: { isRecommend },
+      })
+    } catch (error) {
+      throw new NotFoundException(`分类ID ${id} 不存在`)
+    }
+
+    return {
+      data: null,
+      message: '更新成功！',
+    }
+  }
 }

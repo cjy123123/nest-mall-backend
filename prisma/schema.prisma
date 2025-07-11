@@ -23,11 +23,12 @@ model User {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement()) @db.UnsignedInt()
-  name      String   @unique // 分类名称
-  cover     String? // 分类封面图  不传的话，默认用商品第一张图
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement()) @db.UnsignedInt()
+  name        String   @unique // 分类名称
+  cover       String? // 分类封面图  不传的话，默认用商品第一张图
+  isRecommend Boolean? @default(false) // 是否推荐
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   goods Goods[]
 }
