@@ -1,98 +1,127 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Mall Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 项目简介
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Mall Backend 是一个基于 NestJS 框架开发的电商系统后端，提供了用户管理、商品分类、商品管理、购物车等核心功能的 API 接口。
 
-## Description
+## 技术栈
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **框架**: [NestJS](https://nestjs.com/) v11
+- **ORM**: [Prisma](https://www.prisma.io/) v6
+- **API 文档**: [Swagger](https://swagger.io/)
+- **数据验证**: class-validator, class-transformer
+- **HTTP 客户端**: axios
+- **工具库**: dayjs, nanoid, faker-js
 
-## Project setup
+## 项目结构
 
-```bash
-$ pnpm install
+```
+mall-backend/
+├── prisma/                 # Prisma 相关文件
+│   ├── migrations/         # 数据库迁移文件
+│   ├── mock/               # 模拟数据
+│   └── schema.prisma       # 数据库模型定义
+├── src/
+│   ├── common/             # 通用模块
+│   ├── modules/            # 功能模块
+│   │   ├── cart/           # 购物车模块
+│   │   ├── category/       # 分类模块
+│   │   ├── goods/          # 商品模块
+│   │   ├── prisma/         # Prisma 服务模块
+│   │   ├── upload/         # 文件上传模块
+│   │   └── user/           # 用户模块
+│   ├── utils/              # 工具函数
+│   ├── app.module.ts       # 应用程序主模块
+│   └── main.ts             # 应用程序入口
+├── uploads/                # 上传文件存储目录
+└── .env                    # 环境变量配置
 ```
 
-## Compile and run the project
+## 核心功能模块
+
+- **用户模块**: 用户注册、登录、信息管理
+- **分类模块**: 商品分类管理
+- **商品模块**: 商品信息管理
+- **购物车模块**: 购物车及购物车项管理
+- **上传模块**: 文件上传功能
+
+## 数据库模型
+
+项目使用 Prisma ORM 管理数据库，主要模型包括：
+
+- **User**: 用户信息
+- **Category**: 商品分类
+- **Goods**: 商品信息
+- **Cart**: 购物车
+- **CartItem**: 购物车项
+
+## 安装与运行
+
+### 环境要求
+
+- Node.js v18+
+- PNPM v8+
+- MySQL/PostgreSQL 数据库
+
+### 安装依赖
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
 ```
 
-## Run tests
+### 数据库配置
+
+1. 在 `.env` 文件中配置数据库连接信息
+2. 执行数据库迁移
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+npx prisma migrate dev
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+3. 生成 Prisma 客户端
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+npx prisma generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+4. 填充测试数据
 
-## Resources
+```bash
+npx prisma db seed
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 运行项目
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# 开发模式
+pnpm run dev
 
-## Support
+# 生产模式
+pnpm run build
+pnpm run prod
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API 文档
 
-## Stay in touch
+项目集成了 Swagger 文档，启动服务后访问：
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```
+http://localhost:3000/api/docs
+```
 
-## License
+## 环境变量
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+项目支持不同环境的配置：
+
+- `.env`: 默认环境配置
+- `.env.development`: 开发环境配置
+- `.env.production`: 生产环境配置
+
+## 项目脚本
+
+- `pnpm run build`: 构建项目
+- `pnpm run start`: 启动项目（监视模式）
+- `pnpm run dev`: 开发模式启动
+- `pnpm run prod`: 生产模式启动
+- `pnpm run lint`: 代码检查
+- `pnpm run test`: 运行测试
