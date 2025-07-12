@@ -43,7 +43,7 @@ export class CategoryController {
 
   // 首页 - 修改推荐分类
   @Put('recommend/:id')
-  @ApiOperation({ summary: '修改推荐分类' })
+  @ApiOperation({ summary: '首页 - 修改推荐分类' })
   @ApiParam({ name: 'id', description: '分类ID' })
   @ApiBody({ type: UpdateRecommendCategoryDto })
   updateRecommendCategory(

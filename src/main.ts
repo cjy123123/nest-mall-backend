@@ -23,7 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('/api-docs', app, document)
 
   // 静态目录
-  app.useStaticAssets('uploads', { prefix: '/uploads' })
+  app.useStaticAssets('uploads')
 
   // 全局管道验证
   app.useGlobalPipes(
