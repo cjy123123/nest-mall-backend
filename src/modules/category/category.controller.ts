@@ -27,6 +27,7 @@ import {
   CategoryQueryDto,
   CategoryListResponseDto,
   UpdateRecommendCategoryDto,
+  CategoryItemResponseDto,
 } from './dto/category.dto'
 
 @Controller('category')
@@ -37,6 +38,7 @@ export class CategoryController {
   // 首页 - 推荐分类列表
   @Get('recommend')
   @ApiOperation({ summary: '首页 - 推荐分类列表' })
+  @ApiResponse({ type: CategoryListResponseDto })
   getRecommendList() {
     return this.categoryService.getRecommendList()
   }
@@ -61,6 +63,7 @@ export class CategoryController {
 
   @Get()
   @ApiOperation({ summary: '获取分类列表' })
+  @ApiResponse({ type: CategoryListResponseDto })
   @ApiOkResponse({
     example: {
       success: true,
@@ -105,6 +108,7 @@ export class CategoryController {
 
   @Get(':id')
   @ApiOperation({ summary: '获取分类详情' })
+  @ApiResponse({ type: CategoryItemResponseDto })
   @ApiParam({ name: 'id', description: '分类ID', type: 'number' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.categoryService.findOne(id)

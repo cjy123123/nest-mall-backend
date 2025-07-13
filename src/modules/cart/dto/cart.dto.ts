@@ -1,6 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import { IsInt, IsOptional, Min } from 'class-validator'
+import { BaseListResponseDto } from 'src/common/dto/response.dto'
+import { GoodsResponseDto } from 'src/modules/goods/dto/goods.dto'
 
 export class CreateCartDto {
   @ApiProperty({ description: '商品id', example: 1 })
@@ -31,4 +33,9 @@ export class DeleteCartItemsDto {
   @IsInt({ each: true })
   @Type(() => Number)
   goodsIds: number[]
+}
+
+export class CartResponseDto extends BaseListResponseDto {
+  @ApiProperty({ description: '购物车商品列表', type: [GoodsResponseDto] })
+  data: GoodsResponseDto[]
 }

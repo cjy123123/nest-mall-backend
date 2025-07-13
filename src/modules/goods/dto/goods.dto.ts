@@ -10,6 +10,7 @@ import {
   IsPositive,
   IsEnum,
 } from 'class-validator'
+import { BaseListResponseDto, BaseResponseDto } from '@/common/dto/response.dto'
 
 enum GoodsStatus {
   ON_SALE = 0,
@@ -86,7 +87,7 @@ export class GoodsQueryDto {
   @Min(1)
   page?: number
 
-  @ApiPropertyOptional({ description: '每页数量', default: 10 })
+  @ApiPropertyOptional({ description: '每页数量', default: 100 })
   @IsOptional()
   @IsInt()
   @Min(1)
@@ -127,10 +128,10 @@ export class GoodsResponseDto {
   title: string
 
   @ApiPropertyOptional({ description: '商品副标题' })
-  subTitle: string | null
+  subTitle: string
 
   @ApiPropertyOptional({ description: '商品描述' })
-  description: string | null
+  description: string
 
   @ApiProperty({ description: '商品价格' })
   price: number
@@ -151,7 +152,7 @@ export class GoodsResponseDto {
   isDiscount: boolean
 
   @ApiPropertyOptional({ description: '优惠价格' })
-  discountPrice: number | null
+  discountPrice: number
 
   @ApiProperty({ description: '创建时间' })
   createdAt: Date
@@ -163,27 +164,12 @@ export class GoodsResponseDto {
   categoryId: number
 }
 
-export class GoodsListResponseDto {
+export class GoodsListResponseDto extends BaseListResponseDto {
   @ApiProperty({ description: '商品列表', type: [GoodsResponseDto] })
-  items: GoodsResponseDto[]
-
-  @ApiProperty({ description: '总数量' })
-  total: number
-
-  @ApiProperty({ description: '页码' })
-  page: number
-
-  @ApiProperty({ description: '每页数量' })
-  pageSize: number
+  data: GoodsResponseDto[]
 }
 
-class CategoryResponseDto {
-  @ApiProperty({ description: '分类ID' })
-  id: number
-
-  @ApiProperty({ description: '分类名称' })
-  name: string
-
-  @ApiPropertyOptional({ description: '分类封面图' })
-  cover: string | null
+export class GoodsItemResponseDto extends BaseResponseDto {
+  @ApiProperty({ description: '商品详情', type: GoodsResponseDto })
+  data: GoodsResponseDto
 }

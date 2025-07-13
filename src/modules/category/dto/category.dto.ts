@@ -1,6 +1,8 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { BaseListResponseDto, BaseResponseDto } from 'src/common/dto/response.dto'
+import { GoodsResponseDto } from 'src/modules/goods/dto/goods.dto'
 
 export class CreateCategoryDto {
   @ApiProperty({ description: '分类名称', default: '强烈推荐' })
@@ -32,7 +34,7 @@ export class CategoryQueryDto {
   keyword?: string
 }
 
-export class CategoryResponseDto {
+export class CategoryItemDto {
   @ApiProperty({ description: '分类ID' })
   id: number
 
@@ -40,7 +42,10 @@ export class CategoryResponseDto {
   name: string
 
   @ApiPropertyOptional({ description: '分类封面图' })
-  cover: string | null
+  cover?: string
+
+  @ApiProperty({ description: '商品列表' })
+  goods: GoodsResponseDto[]
 
   @ApiProperty({ description: '创建时间' })
   createdAt: Date
@@ -49,23 +54,19 @@ export class CategoryResponseDto {
   updatedAt: Date
 }
 
-export class CategoryListResponseDto {
-  @ApiProperty({ description: '分类列表', type: [CategoryResponseDto] })
-  items: CategoryResponseDto[]
-
-  @ApiProperty({ description: '总数量' })
-  total: number
-
-  @ApiProperty({ description: '页码' })
-  page: number
-
-  @ApiProperty({ description: '每页数量' })
-  pageSize: number
-}
-
 export class UpdateRecommendCategoryDto {
   @ApiProperty({ description: '是否推荐' })
   @IsNotEmpty({ message: '是否推荐不能为空' })
   @Type(() => Boolean)
   isRecommend: boolean
+}
+
+export class CategoryListResponseDto extends BaseListResponseDto {
+  @ApiProperty({ description: '分类列表', type: [CategoryItemDto] })
+  data: CategoryItemDto[]
+}
+
+export class CategoryItemResponseDto extends BaseResponseDto {
+  @ApiProperty({ description: '分类', type: CategoryItemDto })
+  data: CategoryItemDto
 }

@@ -18,8 +18,8 @@ export class GoodsService {
     })
   }
 
-  async findAll(query: GoodsQueryDto): Promise<GoodsListResponseDto> {
-    const { page = 1, pageSize = 10, keyword, categoryId, status, isDiscount, priceSort } = query
+  async findAll(query: GoodsQueryDto) {
+    const { page = 1, pageSize = 100, keyword, categoryId, status, isDiscount, priceSort } = query
 
     // 构建查询条件
     const where: any = {}
@@ -60,7 +60,7 @@ export class GoodsService {
     })
 
     return {
-      items,
+      data: items,
       total,
       page,
       pageSize,
