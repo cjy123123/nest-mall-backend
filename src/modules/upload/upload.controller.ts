@@ -34,6 +34,15 @@ export class UploadController {
   }
 
   // TODO: 文件数组上传
+  @ApiOperation({
+    summary: '（暂时不做）上传多个文件',
+    description: '限制最大为10MB，multipart/form-data格式',
+  })
   @Post('multiple')
-  uploadMultipleFiles() {}
+  uploadMultipleFiles() {
+    return {
+      data: null,
+      message: '接口不支持',
+    }
+  }
 }

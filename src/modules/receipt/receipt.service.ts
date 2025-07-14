@@ -12,21 +12,31 @@ export class ReceiptService {
       await this.clearOtherDefaults(createReceiptDto.userId)
     }
 
-    await this.prismaService.receipt.create({
-      data: createReceiptDto,
-    })
+    try {
+      await this.prismaService.receipt.create({
+        data: createReceiptDto,
+      })
 
-    return {
-      data: null,
-      message: '添加成功！',
+      return {
+        data: null,
+        message: '添加成功！',
+      }
+    } catch (error) {
+      throw new BadRequestException('添加失败！')
     }
   }
 
   async findOne(userId: number) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+    })
+
+    if (!user) {
+      throw new BadRequestException('用户不存在！')
+    }
+
     const receiptList = await this.prismaService.receipt.findMany({
-      where: {
-        userId,
-      },
+      where: { userId },
     })
 
     return {
@@ -51,9 +61,7 @@ export class ReceiptService {
     }
 
     await this.prismaService.receipt.update({
-      where: {
-        id,
-      },
+      where: { id },
       data: updateReceiptDto,
     })
 
@@ -64,15 +72,17 @@ export class ReceiptService {
   }
 
   async remove(id: number) {
-    await this.prismaService.receipt.delete({
-      where: {
-        id,
-      },
-    })
+    try {
+      await this.prismaService.receipt.delete({
+        where: { id },
+      })
 
-    return {
-      data: null,
-      message: '删除成功！',
+      return {
+        data: null,
+        message: '删除成功！',
+      }
+    } catch (error) {
+      throw new BadRequestException('收货地址不存在！')
     }
   }
 
