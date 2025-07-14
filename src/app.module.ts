@@ -6,9 +6,11 @@ import { PrismaModule } from './modules/prisma/prisma.module'
 import { CategoryModule } from './modules/category/category.module'
 import { GoodsModule } from './modules/goods/goods.module'
 import { CartModule } from './modules/cart/cart.module'
+import { ReceiptModule } from './modules/receipt/receipt.module'
 
 @Module({
   imports: [
+    ReceiptModule,
     UploadModule,
     UserModule,
     PrismaModule,

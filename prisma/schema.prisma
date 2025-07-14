@@ -8,23 +8,26 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+// 用户
 model User {
-  id        Int      @id @default(autoincrement()) @db.UnsignedInt()
+  id        Int       @id @default(autoincrement()) @db.UnsignedInt()
   username  String // 用户名
   password  String? // 密码
   phone     String? // 手机号
-  avatar    String?  @default("/avatar/default.jpg") // 头像URL
-  role      String?  @default("user") // 用户角色
-  openid    String   @unique // 微信openid
+  avatar    String?   @default("/avatar/default.jpg") // 头像URL
+  role      String?   @default("user") // 用户角色
+  openid    String    @unique // 微信openid
   // unionid   String?  @unique // https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/union-id.html
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  cart      Cart?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  cart      Cart? // 购物车
+  Receipt   Receipt[] // 收货管理
 }
 
+// 商品分类
 model Category {
   id          Int      @id @default(autoincrement()) @db.UnsignedInt()
-  name        String   @unique // 分类名称
+  name        String // 分类名称
   cover       String? // 分类封面图  不传的话，默认用商品第一张图
   isRecommend Boolean? @default(false) // 是否推荐
   createdAt   DateTime @default(now())
@@ -33,9 +36,10 @@ model Category {
   goods Goods[]
 }
 
+// 商品
 model Goods {
   id            Int      @id @default(autoincrement()) @db.UnsignedInt()
-  title         String   @unique // 商品标题（商品名称）
+  title         String // 商品标题（商品名称）
   subTitle      String? // 商品副标题
   description   String? // 商品描述
   price         Float // 商品价格
@@ -53,6 +57,7 @@ model Goods {
   cartItems  CartItem[]
 }
 
+// 购物车
 model Cart {
   id        Int      @id @default(autoincrement()) @db.UnsignedInt()
   userId    Int      @unique @db.UnsignedInt()
@@ -75,4 +80,19 @@ model CartItem {
   goods Goods @relation(fields: [goodsId], references: [id])
 
   @@unique([cartId, goodsId])
+}
+
+// 收货管理
+model Receipt {
+  id        Int      @id @default(autoincrement()) @db.UnsignedInt()
+  userId    Int      @db.UnsignedInt()
+  name      String // 收货人姓名
+  phone     String // 收货人手机号
+  area      String // 收货人所在地区
+  address   String // 收货人详细地址
+  isDefault Boolean  @default(false) // 是否默认地址
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
 }
