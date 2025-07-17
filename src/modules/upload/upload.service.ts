@@ -11,7 +11,7 @@ export class UploadService {
     return {
       // name,
       // fileName,
-      url: file.path,
+      url: file.path.replace('uploads', ''),
       fileSize: file.size,
       fileType: suffix,
     }

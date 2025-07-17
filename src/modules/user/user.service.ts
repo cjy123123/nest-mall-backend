@@ -1,10 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { UserLoginDto, UserRegisterDto, UserUpdateDto } from './dto/user.dto'
+import { UserLoginDto, UserPageParams, UserRegisterDto, UserUpdateDto } from './dto/user.dto'
 import { ConfigService } from '@nestjs/config'
 import { HttpService } from '@nestjs/axios'
 import { lastValueFrom } from 'rxjs'
 import { PrismaService } from '../prisma/prisma.service'
 import { nanoid } from 'nanoid'
+import { PageParams } from '@/common/dto/response.dto'
+import { formatWhere } from '@/utils'
+import { User } from '@prisma/client'
 
 @Injectable()
 export class UserService {
@@ -13,6 +16,33 @@ export class UserService {
     private prismaService: PrismaService,
     private httpService: HttpService,
   ) {}
+
+  public async findOne(id: number) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return user
+  }
+
+  public async findAll({ page = 1, pageSize = 1000, phone, username }: UserPageParams) {
+    const total = await this.prismaService.user.count()
+
+    const userList = await this.prismaService.user.findMany({
+      where: formatWhere({ phone, username }),
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    })
+
+    return {
+      data: userList,
+      page,
+      pageSize,
+      total,
+    }
+  }
 
   public async login({ code: js_code }: UserLoginDto) {
     const appid = this.configService.get<string>('WECHAT_APP_ID')
