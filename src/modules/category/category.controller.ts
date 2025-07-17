@@ -28,12 +28,21 @@ import {
   CategoryListResponseDto,
   UpdateRecommendCategoryDto,
   CategoryItemResponseDto,
+  CategoryItemDto,
 } from './dto/category.dto'
 
 @Controller('category')
 @ApiTags('商品分类')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
+
+  // 修改分类顺序
+  @Put('order')
+  @ApiOperation({ summary: '修改分类顺序' })
+  @ApiBody({ type: CategoryItemDto, isArray: true })
+  updateOrder(@Body() list: CategoryItemDto[]) {
+    return this.categoryService.updateOrder(list)
+  }
 
   // 首页 - 推荐分类列表
   @Get('recommend')

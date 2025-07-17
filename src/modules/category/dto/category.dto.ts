@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 import { BaseListResponseDto, BaseResponseDto } from 'src/common/dto/response.dto'
 import { GoodsResponseDto } from 'src/modules/goods/dto/goods.dto'
 
@@ -14,6 +14,11 @@ export class CreateCategoryDto {
   @IsOptional()
   @IsString()
   cover?: string
+
+  @ApiPropertyOptional({ description: '是否推荐', default: false })
+  @IsOptional()
+  @IsBoolean()
+  isRecommend?: boolean
 }
 
 export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {}
@@ -24,7 +29,7 @@ export class CategoryQueryDto {
   @IsOptional()
   page?: number
 
-  @ApiPropertyOptional({ description: '每页数量', default: 10 })
+  @ApiPropertyOptional({ description: '每页数量', default: 1000 })
   @Type(() => Number)
   @IsOptional()
   pageSize?: number
@@ -46,6 +51,12 @@ export class CategoryItemDto {
 
   @ApiProperty({ description: '商品列表' })
   goods: GoodsResponseDto[]
+
+  @ApiProperty({ description: '是否推荐' })
+  isRecommend: boolean
+
+  @ApiProperty({ description: '排序' })
+  order: number
 
   @ApiProperty({ description: '创建时间' })
   createdAt: Date
