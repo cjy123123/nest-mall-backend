@@ -19,7 +19,7 @@ export class GoodsService {
   }
 
   async findAll(query: GoodsQueryDto) {
-    const { page = 1, pageSize = 100, keyword, categoryId, status, isDiscount, priceSort } = query
+    const { page = 1, pageSize = 100, keyword, categoryId } = query
 
     // 构建查询条件
     const where: any = {}
@@ -32,20 +32,8 @@ export class GoodsService {
       where.categoryId = categoryId
     }
 
-    if (status !== undefined) {
-      where.status = status
-    }
-
-    if (isDiscount !== undefined) {
-      where.isDiscount = isDiscount
-    }
-
     // 构建排序条件
     const orderBy: any = { id: 'desc' }
-
-    if (priceSort) {
-      orderBy.price = priceSort
-    }
 
     // 查询总数
     const total = await this.prisma.goods.count({ where })
@@ -56,7 +44,10 @@ export class GoodsService {
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy,
-      include: { category: true },
+      include: {
+        category: true,
+        specification: true,
+      },
     })
 
     return {

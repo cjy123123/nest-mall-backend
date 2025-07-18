@@ -7,6 +7,7 @@ import { CategoryModule } from './modules/category/category.module'
 import { GoodsModule } from './modules/goods/goods.module'
 import { CartModule } from './modules/cart/cart.module'
 import { ReceiptModule } from './modules/receipt/receipt.module'
+import { GoodsSpecModule } from './modules/goods-spec/goods-spec.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ReceiptModule } from './modules/receipt/receipt.module'
     CategoryModule,
     CartModule,
     GoodsModule,
+    GoodsSpecModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development',

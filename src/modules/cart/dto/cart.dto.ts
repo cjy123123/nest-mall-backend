@@ -5,10 +5,10 @@ import { BaseListResponseDto } from 'src/common/dto/response.dto'
 import { GoodsResponseDto } from 'src/modules/goods/dto/goods.dto'
 
 export class CreateCartDto {
-  @ApiProperty({ description: '商品id', example: 1 })
+  @ApiProperty({ description: '商品规格id', example: 1 })
   @IsInt()
   @Type(() => Number)
-  goodsId: number
+  goodsSpecId: number
 
   @ApiProperty({ description: '商品数量', example: 1 })
   @IsInt()
@@ -29,10 +29,10 @@ export class DeleteCartItemsDto {
   @Type(() => Number)
   userId: number
 
-  @ApiProperty({ description: '商品id数组', example: [1, 2, 3] })
+  @ApiProperty({ description: '商品规格id数组', example: [1, 2, 3] })
   @IsInt({ each: true })
   @Type(() => Number)
-  goodsIds: number[]
+  goodsSpecIds: number[]
 }
 
 export class CartResponseDto extends BaseListResponseDto {

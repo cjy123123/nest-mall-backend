@@ -13,6 +13,8 @@ const run = async () => {
   await mockUser()
   await mockCategory()
   await mockGoods()
+
+  console.log('Seed OK')
 }
 
 run()

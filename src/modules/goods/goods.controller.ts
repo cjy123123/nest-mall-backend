@@ -32,14 +32,14 @@ export class GoodsController {
 
   @Get()
   @ApiOperation({ summary: '获取商品列表' })
-  @ApiResponse({ type: [GoodsListResponseDto] })
+  @ApiResponse({ type: GoodsListResponseDto })
   findAll(@Query() query: GoodsQueryDto) {
     return this.goodsService.findAll(query)
   }
 
   @Get(':id')
   @ApiOperation({ summary: '获取商品详情' })
-  @ApiResponse({ type: [GoodsItemResponseDto] })
+  @ApiResponse({ type: GoodsItemResponseDto })
   @ApiParam({ name: 'id', description: '商品ID', type: 'number' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.goodsService.findOne(id)

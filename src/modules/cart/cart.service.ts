@@ -6,7 +6,7 @@ import { CreateCartDto, UpdateCartDto, DeleteCartItemsDto } from './dto/cart.dto
 export class CartService {
   constructor(private prisma: PrismaService) {}
 
-  async create({ userId, goodsId, quantity }: CreateCartDto) {
+  async create({ userId, goodsSpecId, quantity }: CreateCartDto) {
     let cart = await this.prisma.cart.findUnique({
       where: { userId },
     })
@@ -22,7 +22,7 @@ export class CartService {
     const existingItem = await this.prisma.cartItem.findFirst({
       where: {
         cartId: cart.id,
-        goodsId: goodsId,
+        goodsSpecId,
       },
     })
 
@@ -31,8 +31,8 @@ export class CartService {
       const cartItem = await this.prisma.cartItem.update({
         where: { id: existingItem.id },
         data: { quantity: existingItem.quantity + (quantity ?? 1) },
-        include: { goods: true },
       })
+
       return {
         data: cartItem.quantity,
         message: '购物车更新成功！',
@@ -43,12 +43,11 @@ export class CartService {
     const cartItem = await this.prisma.cartItem.create({
       data: {
         cartId: cart.id,
-        goodsId: goodsId,
+        goodsSpecId,
         quantity: quantity ?? 1,
       },
-      include: { goods: true },
     })
-    console.log(cartItem)
+
     return {
       data: null,
       message: '购物车添加成功！',
@@ -61,7 +60,7 @@ export class CartService {
       where: { userId },
       include: {
         cartItems: {
-          include: { goods: true },
+          include: { goodsSpec: true },
         },
       },
     })
@@ -71,7 +70,7 @@ export class CartService {
     }
   }
 
-  async update({ userId, goodsId, quantity }: UpdateCartDto) {
+  async update({ userId, goodsSpecId, quantity }: UpdateCartDto) {
     const cart = await this.prisma.cart.findUnique({
       where: { userId },
     })
@@ -80,7 +79,7 @@ export class CartService {
     const currentCartItem = await this.prisma.cartItem.findFirst({
       where: {
         cartId: cart!.id,
-        goodsId,
+        goodsSpecId,
       },
     })
 
@@ -89,17 +88,15 @@ export class CartService {
         id: currentCartItem?.id,
       },
       data: { quantity },
-      include: { goods: true },
     })
 
-    console.log('quantity', quantity)
     return {
       data: null,
       message: '购物车更新成功！',
     }
   }
 
-  async remove({ userId, goodsIds }: DeleteCartItemsDto) {
+  async remove({ userId, goodsSpecIds }: DeleteCartItemsDto) {
     // 获取用户购物车
     const cart = await this.prisma.cart.findUnique({
       where: { userId },
@@ -113,7 +110,7 @@ export class CartService {
     return this.prisma.cartItem.deleteMany({
       where: {
         cartId: cart.id,
-        goodsId: { in: goodsIds },
+        goodsSpecId: { in: goodsSpecIds },
       },
     })
   }

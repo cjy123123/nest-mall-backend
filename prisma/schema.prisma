@@ -41,23 +41,35 @@ model Category {
 
 // 商品
 model Goods {
-  id            Int      @id @default(autoincrement())
-  title         String // 商品标题（商品名称）
-  subTitle      String? // 商品副标题
-  description   String? // 商品描述
-  price         Float // 商品价格
-  stock         Int // 商品库存
-  cover         String // 商品封面图
-  detail        String // 商品详情图
-  status        Int // 商品状态 0: 在售 1: 下架 
-  isDiscount    Boolean  @default(false) // 是否优惠
-  discountPrice Float? // 优惠价格
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  title     String // 商品标题（商品名称）
+  cover     String? // 商品封面图
+  detail    String? // 商品详情图
+  isOnSale  Boolean  @default(true) // 是否在售
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  categoryId Int // 商品分类ID
-  category   Category   @relation(fields: [categoryId], references: [id])
-  cartItems  CartItem[]
+  categoryId    Int // 商品分类ID
+  category      Category    @relation(fields: [categoryId], references: [id])
+  specification GoodsSpec[]
+}
+
+// 商品规格
+model GoodsSpec {
+  id            Int        @id @default(autoincrement())
+  title         String // 规格标题
+  name          String // 规格名称
+  price         Float // 规格价格
+  stock         Int // 规格库存
+  cover         String? // 商品封面图
+  detail        String? // 商品详情图
+  isDiscount    Boolean    @default(false) // 是否优惠
+  discountPrice Float? // 优惠价格
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  Goods         Goods      @relation(fields: [goodsId], references: [id])
+  goodsId       Int
+  CartItem      CartItem[]
 }
 
 // 购物车
@@ -72,17 +84,17 @@ model Cart {
 }
 
 model CartItem {
-  id        Int      @id @default(autoincrement())
-  cartId    Int
-  goodsId   Int
-  quantity  Int      @default(1) // 商品数量
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  cartId      Int
+  goodsSpecId Int
+  quantity    Int      @default(1) // 商品数量
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  cart  Cart  @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  goods Goods @relation(fields: [goodsId], references: [id])
+  cart      Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  goodsSpec GoodsSpec @relation(fields: [goodsSpecId], references: [id])
 
-  @@unique([cartId, goodsId])
+  @@unique([cartId, goodsSpecId])
 }
 
 // 收货管理
