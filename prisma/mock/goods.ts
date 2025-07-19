@@ -18,6 +18,7 @@ export const mockGoods = () =>
       data: {
         categoryId: faker.number.int({ min: 1, max: 10 }),
         title: faker.music.genre() + faker.music.songName() + faker.word.noun(1),
+        subTitle: faker.music.artist(),
         cover: '/cover2.png',
         detail: '/detail.png',
         isOnSale: faker.datatype.boolean(),

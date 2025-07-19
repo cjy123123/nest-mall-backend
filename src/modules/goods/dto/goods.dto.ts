@@ -20,6 +20,10 @@ export class CreateGoodsDto {
   @IsString()
   title: string
 
+  @ApiPropertyOptional({ description: '商品副标题', default: '很不错' })
+  @IsOptional()
+  subTitle?: string
+
   @ApiProperty({ description: '商品状态', type: Boolean, default: true })
   isOnSale?: boolean
 

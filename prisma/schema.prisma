@@ -43,6 +43,7 @@ model Category {
 model Goods {
   id        Int      @id @default(autoincrement())
   title     String // 商品标题（商品名称）
+  subTitle  String? //商品副标题
   cover     String? // 商品封面图
   detail    String? // 商品详情图
   isOnSale  Boolean  @default(true) // 是否在售
