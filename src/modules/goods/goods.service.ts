@@ -61,7 +61,7 @@ export class GoodsService {
   async findOne(id: number) {
     const goods = await this.prisma.goods.findUnique({
       where: { id },
-      include: { category: true },
+      include: { category: true, specification: true },
     })
 
     if (!goods) {
@@ -76,11 +76,10 @@ export class GoodsService {
       const goods = await this.prisma.goods.update({
         where: { id },
         data: updateGoodsDto,
-        include: { category: true },
+        include: { category: true, specification: true },
       })
 
       return {
-        ...goods,
         message: '更新成功!',
       }
     } catch (error) {
