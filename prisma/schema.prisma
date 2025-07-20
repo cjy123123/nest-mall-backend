@@ -64,7 +64,7 @@ model GoodsSpec {
   price         Float // 规格价格
   stock         Int // 规格库存
   description   String? // 服务描述
-  cover         String? // 商品封面图
+  cover         Json // 商品封面图
   detail        String? // 商品详情图
   isDiscount    Boolean    @default(false) // 是否优惠
   discountPrice Float? // 优惠价格
