@@ -39,7 +39,7 @@ export class GoodsService {
     const total = await this.prisma.goods.count({ where })
 
     // 查询分页数据
-    const items = await this.prisma.goods.findMany({
+    const data = await this.prisma.goods.findMany({
       where,
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -50,8 +50,17 @@ export class GoodsService {
       },
     })
 
+    const newData = data.map(({ specification, ...rest }) => {
+      return {
+        ...rest,
+        minPrice: Math.min(...specification.map((spec) => spec.price)),
+        maxPrice: Math.max(...specification.map((spec) => spec.price)),
+        specification,
+      }
+    })
+
     return {
-      data: items,
+      data: newData,
       total,
       page,
       pageSize,

@@ -53,6 +53,7 @@ model Goods {
   categoryId    Int // 商品分类ID
   category      Category    @relation(fields: [categoryId], references: [id])
   specification GoodsSpec[]
+  coupon        Coupon[]
 }
 
 // 商品规格
@@ -62,6 +63,7 @@ model GoodsSpec {
   name          String // 规格名称
   price         Float // 规格价格
   stock         Int // 规格库存
+  description   String? // 服务描述
   cover         String? // 商品封面图
   detail        String? // 商品详情图
   isDiscount    Boolean    @default(false) // 是否优惠
@@ -115,17 +117,21 @@ model Receipt {
 
 // 优惠券模型
 model Coupon {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String // 优惠券名称
   description String? // 优惠券描述
-  amount      Decimal   @db.Decimal(10, 2) // 优惠金额
-  minAmount   Decimal   @db.Decimal(10, 2) // 最低使用金额
+  amount      Decimal  @db.Decimal(10, 2) // 优惠金额
+  minAmount   Decimal  @db.Decimal(10, 2) // 最低使用金额
   startTime   DateTime // 生效时间
   endTime     DateTime // 过期时间
-  type        Int       @default(0) // 优惠券类型：0-通用，1-商品分类
-  categoryId  Int? // 可用商品分类ID（当type=1时有效）
-  category    Category? @relation(fields: [categoryId], references: [id]) // 关联的商品分类
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
+  type        Int          @default(0) // 优惠券类型：0-通用，1-商品分类
+  categoryId  Int? // 可用商品分类ID（当type=1时有效）
+  category    Category?    @relation(fields: [categoryId], references: [id]) // 关联的商品分类
+  goodsId     Int // 关联的具体商品（用于领取优惠券）
+  goods       Goods?       @relation(fields: [goodsId], references: [id])
   // 关联用户优惠券
   userCoupons UserCoupon[]
 }

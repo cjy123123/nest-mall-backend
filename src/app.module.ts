@@ -8,9 +8,13 @@ import { GoodsModule } from './modules/goods/goods.module'
 import { CartModule } from './modules/cart/cart.module'
 import { ReceiptModule } from './modules/receipt/receipt.module'
 import { GoodsSpecModule } from './modules/goods-spec/goods-spec.module'
+import { PosterModule } from './modules/poster/poster.module'
+import { CouponModule } from './modules/coupon/coupon.module'
 
 @Module({
   imports: [
+    CouponModule,
+    PosterModule,
     ReceiptModule,
     UploadModule,
     UserModule,
