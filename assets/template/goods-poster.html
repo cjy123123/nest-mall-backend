@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #poster-root {
+        width: 380px;
+        height: 470px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        /* border: 1px solid red; */
+        box-sizing: border-box;
+      }
+      #title {
+        font-size: 24px;
+        margin: 20px 0;
+        color: #333;
+        height: 70px;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+      #discountPrice {
+        font-size: 36px;
+        font-weight: 600;
+      }
+      #price {
+        font-size: 22px;
+        color: #999;
+      }
+
+      .info {
+        display: flex;
+        gap: 12px;
+      }
+
+      .info .left {
+        flex: 1;
+      }
+
+      #product-img {
+        width: 100%;
+      }
+
+      #qrcode-img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        align-self: flex-end;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="poster-root">
+      <img
+        id="product-img"
+        src="https://img.meituan.net/csc/71249645a03fe6422e689b604ba4d5243683923.png"
+        alt="product"
+      />
+      <div class="info">
+        <div class="left">
+          <div id="discountPrice">￥439.00</div>
+          <div id="price">原价 ￥439.00</div>
+          <div id="title">标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题</div>
+        </div>
+        <img
+          id="qrcode-img"
+          src="https://img.meituan.net/csc/71249645a03fe6422e689b604ba4d5243683923.png"
+        />
+      </div>
+    </div>
+  </body>
+</html>

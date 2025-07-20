@@ -31,11 +31,10 @@ CREATE TABLE `Category` (
 CREATE TABLE `Goods` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(191) NOT NULL,
+    `subTitle` VARCHAR(191) NULL,
     `cover` VARCHAR(191) NULL,
     `detail` VARCHAR(191) NULL,
-    `status` INTEGER NOT NULL DEFAULT 0,
-    `isDiscount` BOOLEAN NOT NULL DEFAULT false,
-    `discountPrice` DOUBLE NULL,
+    `isOnSale` BOOLEAN NOT NULL DEFAULT true,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `categoryId` INTEGER NOT NULL,
@@ -50,6 +49,7 @@ CREATE TABLE `GoodsSpec` (
     `name` VARCHAR(191) NOT NULL,
     `price` DOUBLE NOT NULL,
     `stock` INTEGER NOT NULL,
+    `description` VARCHAR(191) NULL,
     `cover` VARCHAR(191) NULL,
     `detail` VARCHAR(191) NULL,
     `isDiscount` BOOLEAN NOT NULL DEFAULT false,
@@ -109,8 +109,11 @@ CREATE TABLE `Coupon` (
     `minAmount` DECIMAL(10, 2) NOT NULL,
     `startTime` DATETIME(3) NOT NULL,
     `endTime` DATETIME(3) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
     `type` INTEGER NOT NULL DEFAULT 0,
     `categoryId` INTEGER NULL,
+    `goodsId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -149,6 +152,9 @@ ALTER TABLE `Receipt` ADD CONSTRAINT `Receipt_userId_fkey` FOREIGN KEY (`userId`
 
 -- AddForeignKey
 ALTER TABLE `Coupon` ADD CONSTRAINT `Coupon_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `Category`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Coupon` ADD CONSTRAINT `Coupon_goodsId_fkey` FOREIGN KEY (`goodsId`) REFERENCES `Goods`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserCoupon` ADD CONSTRAINT `UserCoupon_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

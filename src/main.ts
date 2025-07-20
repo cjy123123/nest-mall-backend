@@ -24,6 +24,7 @@ async function bootstrap() {
 
   // 静态目录
   app.useStaticAssets('uploads')
+  app.useStaticAssets('assets')
 
   // 全局管道验证
   app.useGlobalPipes(
