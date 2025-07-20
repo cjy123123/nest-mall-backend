@@ -1,18 +1,27 @@
-import { Controller, Get, Param, Query, Res } from '@nestjs/common'
+import { Controller, Get, Param, Post, Query, Res } from '@nestjs/common'
 import { Response } from 'express'
 import { PosterService } from './poster.service'
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger'
-import { CreatePosterDto } from './poster.dto'
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { CreatePosterDto, GetQRCodeDTO } from './dto/poster.dto'
+import { ResponseDto } from '@/common/dto/response.dto'
 
-@ApiTags('海报')
+@ApiTags('海报/二维码')
 @Controller('poster')
 export class PosterController {
   constructor(private readonly posterService: PosterService) {}
 
-  @ApiOperation({ summary: 'TODO: 生成商品海报' })
-  @ApiParam({ name: 'goodsId', description: '商品ID' })
-  @Get(':goodsId')
-  createGoodsPoster(@Param('goodsId') goodsId: number) {
-    return this.posterService.createGoodsPoster(goodsId)
+  @Get('code')
+  @ApiOperation({ summary: '生成指定页面的二维码base64（纯二维码）' })
+  @ApiResponse({ type: ResponseDto })
+  getQRCode(@Query() dto: GetQRCodeDTO) {
+    return this.posterService.getQRCode(dto)
+  }
+
+  @ApiOperation({ summary: '生成商品海报base64（附带二维码）' })
+  @ApiResponse({ type: ResponseDto })
+  @ApiParam({ name: 'goodsSpecId', description: '商品规格ID' })
+  @Get(':goodsSpecId')
+  createGoodsPoster(@Param('goodsSpecId') goodsSpecId: number) {
+    return this.posterService.createGoodsPoster(goodsSpecId)
   }
 }
