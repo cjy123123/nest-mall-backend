@@ -9,7 +9,7 @@ import { nanoid } from 'nanoid'
 export class PosterService {
   constructor(private readonly configService: ConfigService) {}
 
-  async generatePoster(createPosterDto: CreatePosterDto) {
+  async createGoodsPoster(goodsId: number) {
     const BASE_URL = this.configService.get<'string'>('BASE_URL')
 
     const browser = await puppeteer.launch({

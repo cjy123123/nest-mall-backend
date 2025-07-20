@@ -50,7 +50,7 @@ CREATE TABLE `GoodsSpec` (
     `price` DOUBLE NOT NULL,
     `stock` INTEGER NOT NULL,
     `description` VARCHAR(191) NULL,
-    `cover` VARCHAR(191) NULL,
+    `cover` JSON NOT NULL,
     `detail` VARCHAR(191) NULL,
     `isDiscount` BOOLEAN NOT NULL DEFAULT false,
     `discountPrice` DOUBLE NULL,

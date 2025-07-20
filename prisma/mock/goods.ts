@@ -20,7 +20,6 @@ export const mockGoods = () =>
         title: faker.music.genre() + faker.music.songName() + faker.word.noun(1),
         subTitle: faker.music.artist(),
         cover: '/cover2.png',
-        detail: '/detail.png',
         isOnSale: faker.datatype.boolean(),
       },
     })
@@ -35,7 +34,8 @@ export const mockGoodsSpec = async () =>
         goodsId: faker.number.int({ min: 1, max: count }),
         title: faker.music.songName(),
         name: faker.music.songName(),
-        cover: '/cover2.png',
+        cover: ['/cover2.png', '/cover2.png'],
+        description: '七天无理由 · 1对1客服 · 快速响应',
         detail: '/detail.png',
         price: faker.number.float({ min: 10, max: 500, fractionDigits: 2 }),
         isDiscount: faker.datatype.boolean(),

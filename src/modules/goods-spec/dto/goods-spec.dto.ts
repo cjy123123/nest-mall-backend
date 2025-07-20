@@ -20,6 +20,10 @@ export class CreateGoodsSpecDto {
   @IsString()
   name: string
 
+  @ApiProperty({ description: '服务描述' })
+  @IsString()
+  description: string
+
   @ApiProperty({ description: '规格价格' })
   @IsNumber()
   @Min(0)
@@ -32,15 +36,14 @@ export class CreateGoodsSpecDto {
   @Type(() => Number)
   stock: number
 
-  @ApiPropertyOptional({ description: '商品封面图' })
+  @ApiProperty({ description: '商品封面图' })
   @IsOptional()
-  @IsString()
-  cover?: string
+  @IsArray()
+  cover: string[]
 
-  @ApiPropertyOptional({ description: '商品详情图' })
-  @IsOptional()
+  @ApiProperty({ description: '商品详情图' })
   @IsString()
-  detail?: string
+  detail: string
 
   @ApiPropertyOptional({ description: '是否优惠', default: false })
   @IsOptional()
@@ -73,6 +76,10 @@ export class UpdateGoodsSpecDto {
   @IsString()
   name?: string
 
+  @ApiPropertyOptional({ description: '服务描述' })
+  @IsString()
+  description?: string
+
   @ApiPropertyOptional({ description: '规格价格' })
   @IsOptional()
   @IsNumber()
@@ -89,8 +96,8 @@ export class UpdateGoodsSpecDto {
 
   @ApiPropertyOptional({ description: '商品封面图' })
   @IsOptional()
-  @IsString()
-  cover?: string
+  @IsArray()
+  cover?: string[]
 
   @ApiPropertyOptional({ description: '商品详情图' })
   @IsOptional()
@@ -212,10 +219,13 @@ export class GoodsSpecResponseDto {
   stock: number
 
   @ApiPropertyOptional({ description: '商品封面图' })
-  cover?: string
+  cover: string[]
 
   @ApiPropertyOptional({ description: '商品详情图' })
-  detail?: string
+  detail: string
+
+  @ApiProperty({ description: '服务描述' })
+  description: string
 
   @ApiProperty({ description: '是否优惠' })
   isDiscount: boolean
