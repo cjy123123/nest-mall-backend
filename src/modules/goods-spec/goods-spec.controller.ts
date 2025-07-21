@@ -21,7 +21,7 @@ import {
   GoodsSpecResponseDto,
   PaginatedResponseDto,
   UpdateStockDto,
-} from './dto/goods-spec.dto'
+} from './goods-spec.dto'
 
 @ApiTags('商品规格')
 @Controller('goods-spec')

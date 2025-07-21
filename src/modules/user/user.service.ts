@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { UserLoginDto, UserPageParams, UserRegisterDto, UserUpdateDto } from './dto/user.dto'
+import { UserLoginDto, UserPageParams, UserRegisterDto, UserUpdateDto } from './user.dto'
 import { ConfigService } from '@nestjs/config'
 import { HttpService } from '@nestjs/axios'
 import { lastValueFrom } from 'rxjs'

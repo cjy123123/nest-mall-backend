@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { CreateReceiptDto, UpdateReceiptDto } from './dto/receipt.dto'
+import { CreateReceiptDto, UpdateReceiptDto } from './receipt.dto'
 import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()

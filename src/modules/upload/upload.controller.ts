@@ -1,8 +1,15 @@
 import { Controller, Post, Body, UseInterceptors, UploadedFile, HttpStatus } from '@nestjs/common'
 import { UploadService } from './upload.service'
 import { FileInterceptor } from '@nestjs/platform-express'
-import { ApiBody, ApiConsumes, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { FileUploadDto } from './dto/file-upload.dto'
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger'
+import { FileUploadDto, FileUploadResponse } from './upload.dto'
 
 @Controller('upload')
 @ApiTags('文件上传')
@@ -17,32 +24,34 @@ export class UploadController {
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: FileUploadDto })
-  @ApiOkResponse({
-    example: {
-      success: true,
-      message: '请求成功',
-      code: 0,
-      data: {
-        url: 'uploads/XYSdzI5LMyPX.jpg',
-        fileSize: 3575611,
-        fileType: 'jpg',
-      },
-    },
+  @ApiResponse({ type: FileUploadResponse })
+  uploadSingleFile(@UploadedFile() file: Express.Multer.File) {
+    return this.uploadService.uploadSingleFile({ file })
+  }
+
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({
+    summary: '头像上传',
+    description: '限制最大为10MB，multipart/form-data格式',
   })
-  uploadSingleFile(@UploadedFile() file: Express.Multer.File, @Body('name') name?: string) {
-    return this.uploadService.uploadSingleFile({ file, name })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: FileUploadDto })
+  @ApiResponse({ type: FileUploadResponse })
+  uploadAvatar(@UploadedFile() file: Express.Multer.File) {
+    return this.uploadService.uploadSingleFile({ file })
   }
 
   // TODO: 文件数组上传
-  @ApiOperation({
-    summary: '（暂时不做）上传多个文件',
-    description: '限制最大为10MB，multipart/form-data格式',
-  })
-  @Post('multiple')
-  uploadMultipleFiles() {
-    return {
-      data: null,
-      message: '接口不支持',
-    }
-  }
+  // @ApiOperation({
+  //   summary: '（暂时不做）上传多个文件',
+  //   description: '限制最大为10MB，multipart/form-data格式',
+  // })
+  // @Post('multiple')
+  // uploadMultipleFiles() {
+  //   return {
+  //     data: null,
+  //     message: '接口不支持',
+  //   }
+  // }
 }

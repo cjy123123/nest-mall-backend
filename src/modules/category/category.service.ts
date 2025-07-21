@@ -6,7 +6,7 @@ import {
   CategoryQueryDto,
   CategoryListResponseDto,
   CategoryItemDto,
-} from './dto/category.dto'
+} from './category.dto'
 
 @Injectable()
 export class CategoryService {

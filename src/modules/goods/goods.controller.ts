@@ -17,7 +17,7 @@ import {
   GoodsQueryDto,
   GoodsListResponseDto,
   GoodsItemResponseDto,
-} from './dto/goods.dto'
+} from './goods.dto'
 
 @Controller('goods')
 @ApiTags('商品管理')

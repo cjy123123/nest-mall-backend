@@ -29,7 +29,7 @@ import {
   UpdateRecommendCategoryDto,
   CategoryItemResponseDto,
   CategoryItemDto,
-} from './dto/category.dto'
+} from './category.dto'
 
 @Controller('category')
 @ApiTags('商品分类')

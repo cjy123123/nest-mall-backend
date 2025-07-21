@@ -1,11 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import {
-  CreateGoodsDto,
-  UpdateGoodsDto,
-  GoodsQueryDto,
-  GoodsListResponseDto,
-} from './dto/goods.dto'
+import { CreateGoodsDto, UpdateGoodsDto, GoodsQueryDto, GoodsListResponseDto } from './goods.dto'
 
 @Injectable()
 export class GoodsService {

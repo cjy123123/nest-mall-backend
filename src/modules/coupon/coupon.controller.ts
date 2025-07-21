@@ -10,7 +10,7 @@ import {
   UserCouponListResponseDto,
   UserCurrentGoodsCouponListResponse,
   UserCurrentGoodsCouponListDto,
-} from './dto/coupon.dto'
+} from './coupon.dto'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { BaseResponseDto, ResponseDto } from 'src/common/dto/response.dto'
 

@@ -5,7 +5,7 @@ import {
   UpdateGoodsSpecDto,
   QueryGoodsSpecDto,
   BatchUpdateSpecItem,
-} from './dto/goods-spec.dto'
+} from './goods-spec.dto'
 
 @Injectable()
 export class GoodsSpecService {

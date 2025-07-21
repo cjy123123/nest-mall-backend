@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateCouponDto, UpdateCouponDto, ClaimCouponDto, UseCouponDto } from './dto/coupon.dto'
+import { CreateCouponDto, UpdateCouponDto, ClaimCouponDto, UseCouponDto } from './coupon.dto'
 
 @Injectable()
 export class CouponService {

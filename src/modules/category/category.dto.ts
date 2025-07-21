@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 import { BaseListResponseDto, BaseResponseDto } from 'src/common/dto/response.dto'
-import { GoodsResponseDto } from 'src/modules/goods/dto/goods.dto'
+import { GoodsResponseDto } from '@/modules/goods/goods.dto'
 
 export class CreateCategoryDto {
   @ApiProperty({ description: '分类名称', default: '强烈推荐' })

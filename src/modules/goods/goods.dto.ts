@@ -11,8 +11,8 @@ import {
   IsEnum,
 } from 'class-validator'
 import { BaseListResponseDto, BaseResponseDto } from '@/common/dto/response.dto'
-import { GoodsSpecResponseDto } from '@/modules/goods-spec/dto/goods-spec.dto'
-import { CategoryItemDto } from '@/modules/category/dto/category.dto'
+import { GoodsSpecResponseDto } from '@/modules/goods-spec/goods-spec.dto'
+import { CategoryItemDto } from '@/modules/category/category.dto'
 
 export class CreateGoodsDto {
   @ApiProperty({ description: '商品标题（商品名称）', default: '木作体验' })

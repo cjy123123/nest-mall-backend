@@ -1,9 +1,9 @@
 import { Controller, Post, Get, Body, Param, Delete, Patch, ParseIntPipe } from '@nestjs/common'
 import { CartService } from './cart.service'
-import { CreateCartDto, UpdateCartDto, DeleteCartItemsDto, CartResponseDto } from './dto/cart.dto'
+import { CreateCartDto, UpdateCartDto, DeleteCartItemsDto, CartResponseDto } from './cart.dto'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { BaseListResponseDto, BaseResponseDto, ResponseDto } from 'src/common/dto/response.dto'
-import { GoodsResponseDto } from '../goods/dto/goods.dto'
+import { GoodsResponseDto } from '../goods/goods.dto'
 
 @ApiTags('商品购物车')
 @Controller('cart')

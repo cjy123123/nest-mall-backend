@@ -2,7 +2,7 @@ import { ApiProperty, PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
 import { IsInt, IsOptional, Min } from 'class-validator'
 import { BaseListResponseDto } from 'src/common/dto/response.dto'
-import { GoodsResponseDto } from 'src/modules/goods/dto/goods.dto'
+import { GoodsResponseDto } from '@/modules/goods/goods.dto'
 
 export class CreateCartDto {
   @ApiProperty({ description: '商品规格id', example: 1 })

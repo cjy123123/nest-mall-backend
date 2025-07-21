@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common'
 import { ReceiptService } from './receipt.service'
-import { CreateReceiptDto, ReceiptListResponseDto, UpdateReceiptDto } from './dto/receipt.dto'
+import { CreateReceiptDto, ReceiptListResponseDto, UpdateReceiptDto } from './receipt.dto'
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ResponseDto } from '@/common/dto/response.dto'
 

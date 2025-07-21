@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import * as puppeteer from 'puppeteer'
-import { CreatePosterDto, GetQRCodeDTO } from './dto/poster.dto'
+import { CreatePosterDto, GetQRCodeDTO } from './poster.dto'
 import { ConfigService } from '@nestjs/config'
 import { nanoid } from 'nanoid'
 import { getAccessTokenAPI } from '@/utils'
