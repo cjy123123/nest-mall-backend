@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { mockUser } from './user'
 import { mockCategory, mockGoods, mockGoodsSpec } from './goods'
+import { mockCoupon } from './coupon'
 
 export const create = async (count = 10, callback: (prisma: PrismaClient) => Promise<void>) => {
   const prisma = new PrismaClient()
@@ -14,6 +15,7 @@ const run = async () => {
   await mockCategory()
   await mockGoods()
   await mockGoodsSpec()
+  await mockCoupon()
   console.log('Seed OK')
 }
 
