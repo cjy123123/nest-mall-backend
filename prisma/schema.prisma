@@ -152,3 +152,16 @@ model UserCoupon {
 
   @@unique([userId, couponId])
 }
+
+// 乐游攻略
+model Guide {
+  id           Int      @id @default(autoincrement())
+  title        String // 标题
+  cover        String // 首页展示的图
+  banner       String // 顶部图
+  detail       String // 详情
+  likes        Int      @default(0) // 点赞数
+  likedUserIds Json     @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

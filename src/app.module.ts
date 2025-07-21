@@ -10,9 +10,11 @@ import { ReceiptModule } from './modules/receipt/receipt.module'
 import { GoodsSpecModule } from './modules/goods-spec/goods-spec.module'
 import { PosterModule } from './modules/poster/poster.module'
 import { CouponModule } from './modules/coupon/coupon.module'
+import { GuideModule } from './modules/guide/guide.module'
 
 @Module({
   imports: [
+    GuideModule,
     CouponModule,
     PosterModule,
     ReceiptModule,

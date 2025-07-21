@@ -23,7 +23,7 @@ export class AppResponseInterceptor<T> implements NestInterceptor<T, Response<T>
 
     return next.handle().pipe(
       map((data) => {
-        const { message, pageSize, page, total, data: restData, ...rest } = data
+        const { message, pageSize, page, total, data: restData, ...rest } = data ?? {}
 
         const result = {
           success: true,
