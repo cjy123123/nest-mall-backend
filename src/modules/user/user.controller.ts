@@ -28,7 +28,7 @@ import {
   UserLoginDto,
   UserPageParams,
   UserUpdateDto,
-} from './dto/user.dto'
+} from './user.dto'
 import { PageParams, ResponseDto } from '@/common/dto/response.dto'
 
 @Controller('user')

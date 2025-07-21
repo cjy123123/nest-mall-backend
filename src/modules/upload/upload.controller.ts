@@ -10,6 +10,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { FileUploadDto, FileUploadResponse } from './upload.dto'
+import { diskStorage } from 'multer'
+import { nanoid } from 'nanoid'
 
 @Controller('upload')
 @ApiTags('文件上传')
@@ -30,7 +32,20 @@ export class UploadController {
   }
 
   @Post('avatar')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './uploads/avatar',
+        filename: (req, file, cb) => {
+          const fileName = nanoid(12) + '.' + file.originalname.split('.').pop()
+          cb(null, fileName)
+        },
+      }),
+      limits: {
+        fileSize: 10 * 1024 * 1024,
+      },
+    }),
+  )
   @ApiOperation({
     summary: '头像上传',
     description: '限制最大为10MB，multipart/form-data格式',
