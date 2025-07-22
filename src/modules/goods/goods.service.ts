@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateGoodsDto, UpdateGoodsDto, GoodsQueryDto, GoodsListResponseDto } from './goods.dto'
-import { rest } from 'lodash'
 
 @Injectable()
 export class GoodsService {
