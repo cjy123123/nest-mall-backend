@@ -68,8 +68,14 @@ export class GoodsResponseDto {
   @ApiProperty({ description: '商品标题' })
   title: string
 
-  @ApiPropertyOptional({ description: '优惠价格' })
-  discountPrice: number
+  @ApiPropertyOptional({ description: '商品最低价' })
+  minPrice?: number
+
+  @ApiPropertyOptional({ description: '商品最高价' })
+  maxPrice?: number
+
+  @ApiPropertyOptional({ description: '商品封面（取第一个规格第一张图）' })
+  cover?: string
 
   @ApiProperty({ description: '是否在售' })
   isOnSale: boolean

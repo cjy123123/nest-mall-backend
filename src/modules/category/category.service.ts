@@ -33,12 +33,26 @@ export class CategoryService {
       take: pageSize,
       orderBy: [{ order: 'asc' }, { id: 'asc' }],
       include: {
-        goods: true,
+        goods: {
+          include: { specification: true },
+          where: { isOnSale: true },
+        },
       },
     })
 
+    const newData = categories.map(({ goods, ...rest }) => ({
+      ...rest,
+      goods: goods.map(({ specification, ...rest }) => ({
+        ...rest,
+        minPrice: Math.min(...specification.map((spec) => spec.price)),
+        maxPrice: Math.max(...specification.map((spec) => spec.price)),
+        cover: specification[0]?.cover?.[0],
+        specification,
+      })),
+    }))
+
     return {
-      data: categories,
+      data: newData,
       total,
       page,
       pageSize,
@@ -48,7 +62,9 @@ export class CategoryService {
   async findOne(id: number) {
     const category = await this.prisma.category.findUnique({
       where: { id },
-      include: { goods: true },
+      include: {
+        goods: { include: { specification: true }, where: { isOnSale: true } },
+      },
     })
 
     console.log(category)
@@ -95,11 +111,27 @@ export class CategoryService {
   async getRecommendList() {
     const categories = await this.prisma.category.findMany({
       where: { isRecommend: true },
-      include: { goods: true },
+      include: {
+        goods: {
+          include: { specification: true },
+          where: { isOnSale: true },
+        },
+      },
     })
 
+    const newData = categories.map(({ goods, ...rest }) => ({
+      ...rest,
+      goods: goods.map(({ id, title, specification }) => ({
+        id,
+        title,
+        cover: specification[0]?.cover?.[0],
+        minPrice: Math.min(...specification.map((spec) => spec.price)),
+        maxPrice: Math.max(...specification.map((spec) => spec.price)),
+      })),
+    }))
+
     return {
-      data: categories,
+      data: newData,
     }
   }
 

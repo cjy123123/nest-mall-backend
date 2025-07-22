@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateGoodsDto, UpdateGoodsDto, GoodsQueryDto, GoodsListResponseDto } from './goods.dto'
+import { rest } from 'lodash'
 
 @Injectable()
 export class GoodsService {
@@ -42,6 +43,7 @@ export class GoodsService {
       include: {
         category: true,
         specification: true,
+        coupon: true,
       },
     })
 
@@ -51,6 +53,7 @@ export class GoodsService {
         minPrice: Math.min(...specification.map((spec) => spec.price)),
         maxPrice: Math.max(...specification.map((spec) => spec.price)),
         specification,
+        cover: specification[0]?.cover?.[0],
       }
     })
 
@@ -72,7 +75,20 @@ export class GoodsService {
       throw new NotFoundException(`商品ID ${id} 不存在`)
     }
 
-    return goods
+    const { specification, ...rest } = goods
+    const minPrice = Math.min(...specification.map((spec) => spec.price))
+    const maxPrice = Math.max(...specification.map((spec) => spec.price))
+    const cover = specification[0]?.cover?.[0]
+
+    return {
+      data: {
+        ...rest,
+        minPrice,
+        maxPrice,
+        cover,
+        specification,
+      },
+    }
   }
 
   async update(id: number, updateGoodsDto: UpdateGoodsDto) {
