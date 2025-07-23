@@ -165,3 +165,21 @@ model Guide {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+// 首页轮播图
+enum BannerType {
+  ARTICLE
+  VIDEO
+}
+
+model Banner {
+  id         Int        @id @default(autoincrement())
+  title      String // 标题
+  cover      String // 封面图
+  type       BannerType // 类型 
+  articleUrl String? // 链接
+  videoId    Int? // 视频id
+  sort       Int        @default(0) // 排序
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}

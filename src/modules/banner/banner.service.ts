@@ -1,26 +1,51 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBannerDto } from './dto/create-banner.dto';
-import { UpdateBannerDto } from './dto/update-banner.dto';
+import { Injectable } from '@nestjs/common'
+import { CreateBannerDto, UpdateBannerDto } from './banner.dto'
+import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()
 export class BannerService {
-  create(createBannerDto: CreateBannerDto) {
-    return 'This action adds a new banner';
+  constructor(private prismaService: PrismaService) {}
+  async create(createBannerDto: CreateBannerDto) {
+    console.log(createBannerDto)
+    await this.prismaService.banner.create({
+      data: createBannerDto,
+    })
+
+    return {
+      message: '创建成功',
+    }
   }
 
-  findAll() {
-    return `This action returns all banner`;
+  async findAll() {
+    const banners = await this.prismaService.banner.findMany()
+
+    return {
+      data: banners,
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} banner`;
+  async update(id: number, updateBannerDto: UpdateBannerDto) {
+    await this.prismaService.banner.update({
+      where: {
+        id,
+      },
+      data: updateBannerDto,
+    })
+
+    return {
+      message: '更新成功',
+    }
   }
 
-  update(id: number, updateBannerDto: UpdateBannerDto) {
-    return `This action updates a #${id} banner`;
-  }
+  async remove(id: number) {
+    await this.prismaService.banner.delete({
+      where: {
+        id,
+      },
+    })
 
-  remove(id: number) {
-    return `This action removes a #${id} banner`;
+    return {
+      message: '删除成功',
+    }
   }
 }
