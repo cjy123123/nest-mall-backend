@@ -8,7 +8,7 @@ import {
   HttpStatus,
 } from '@nestjs/common'
 import { HttpStatusCode } from 'axios'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import type { Response, Request } from 'express'
 
 /**

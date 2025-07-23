@@ -54,7 +54,7 @@ export class UploadController {
   @ApiBody({ type: FileUploadDto })
   @ApiResponse({ type: FileUploadResponse })
   uploadAvatar(@UploadedFile() file: Express.Multer.File) {
-    return this.uploadService.uploadSingleFile({ file })
+    return this.uploadService.uploadAvatar({ file })
   }
 
   // TODO: 文件数组上传
