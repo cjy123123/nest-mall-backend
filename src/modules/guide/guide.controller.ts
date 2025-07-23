@@ -27,14 +27,14 @@ export class GuideController {
   constructor(private readonly guideService: GuideService) {}
 
   @Get()
-  @ApiOperation({ description: '获取攻略列表' })
+  @ApiOperation({ summary: '获取攻略列表' })
   @ApiResponse({ type: GuideListResponse })
   findAll(@Query() query: PageParams) {
     return this.guideService.findAll(query)
   }
 
   @Get(':id')
-  @ApiOperation({ description: '获取攻略详情' })
+  @ApiOperation({ summary: '获取攻略详情' })
   @ApiResponse({ type: GuideItemResponse })
   @ApiParam({ name: 'id', description: '攻略id' })
   @ApiQuery({ name: 'userId', description: '用户id' })
@@ -44,14 +44,14 @@ export class GuideController {
 
   @Post()
   @ApiBody({ type: CreateGuideDto })
-  @ApiOperation({ description: '创建攻略' })
+  @ApiOperation({ summary: '创建攻略' })
   @ApiResponse({ type: ResponseDto })
   create(@Body() createGuideDto: CreateGuideDto) {
     this.guideService.create(createGuideDto)
   }
 
   @Patch(':id')
-  @ApiOperation({ description: '更新攻略' })
+  @ApiOperation({ summary: '更新攻略' })
   @ApiBody({ type: UpdateGuideDto })
   @ApiResponse({ type: ResponseDto })
   update(@Param('id', ParseIntPipe) id: number, @Body() updateGuideDto: UpdateGuideDto) {
@@ -59,7 +59,7 @@ export class GuideController {
   }
 
   @Delete(':id')
-  @ApiOperation({ description: '删除攻略' })
+  @ApiOperation({ summary: '删除攻略' })
   @ApiResponse({ type: ResponseDto })
   delete(@Param('id', ParseIntPipe) id: number) {
     this.guideService.delete(id)
@@ -67,7 +67,7 @@ export class GuideController {
 
   @Post('like')
   @ApiBody({ type: GuideLikeDto })
-  @ApiOperation({ description: '点赞' })
+  @ApiOperation({ summary: '点赞' })
   @ApiResponse({ type: ResponseDto })
   toggleLike(@Body() guideLikeDto: GuideLikeDto) {
     return this.guideService.toggleLike(guideLikeDto)
