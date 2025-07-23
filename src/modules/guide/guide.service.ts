@@ -1,21 +1,25 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateGuideDto, DeleteGuideDto, GuideLikeDto, UpdateGuideDto } from './guide.dto'
+import { PageParams } from '@/common/dto/response.dto'
 
 @Injectable()
 export class GuideService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll() {
+  async findAll({ page = 1, pageSize = 1000 }: PageParams) {
+    const total = await this.prisma.guide.count()
+
     const guides = await this.prisma.guide.findMany({
-      select: {
-        id: true,
-        cover: true,
-      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
     })
 
     return {
       data: guides,
+      page,
+      pageSize,
+      total,
     }
   }
 
@@ -65,6 +69,7 @@ export class GuideService {
 
     return {
       message: '修改成功！',
+      data: null,
     }
   }
 
@@ -75,6 +80,7 @@ export class GuideService {
 
     return {
       message: '删除成功！',
+      data: null,
     }
   }
 

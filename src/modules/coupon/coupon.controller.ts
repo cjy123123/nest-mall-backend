@@ -11,7 +11,7 @@ import {
   UserCurrentGoodsCouponListResponse,
   UserCurrentGoodsCouponListDto,
 } from './coupon.dto'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { BaseResponseDto, ResponseDto } from 'src/common/dto/response.dto'
 
 @ApiTags('优惠券管理')
@@ -56,11 +56,12 @@ export class CouponController {
     return this.couponService.findUserCoupons(userId, status !== undefined ? +status : undefined)
   }
 
-  @Patch(':id')
-  @ApiOperation({ summary: '更新优惠券' })
+  @Patch()
+  @ApiOperation({ summary: '批量更新优惠券' })
   @ApiResponse({ type: ResponseDto })
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateCouponDto: UpdateCouponDto) {
-    return this.couponService.update(id, updateCouponDto)
+  @ApiBody({})
+  update(@Body() data: any) {
+    return this.couponService.batchUpdate(data)
   }
 
   @Post('claim')

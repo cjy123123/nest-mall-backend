@@ -2,16 +2,24 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
-import { CreateCouponDto, UpdateCouponDto, ClaimCouponDto, UseCouponDto } from './coupon.dto'
+import {
+  CreateCouponDto,
+  UpdateCouponDto,
+  ClaimCouponDto,
+  UseCouponDto,
+  CouponResponseDto,
+} from './coupon.dto'
+import { formatWhere } from '@/utils'
 
 @Injectable()
 export class CouponService {
   constructor(private prisma: PrismaService) {}
 
-  // 创建优惠券
+  // 创建或更新优惠券
   async create(createCouponDto: CreateCouponDto) {
     // 检查关联的商品是否存在
     const goods = await this.prisma.goods.findUnique({
@@ -22,35 +30,19 @@ export class CouponService {
       throw new NotFoundException(`商品ID ${createCouponDto.goodsId} 不存在`)
     }
 
-    // 如果指定了分类，检查分类是否存在
-    if (createCouponDto.categoryId) {
-      const category = await this.prisma.category.findUnique({
-        where: { id: createCouponDto.categoryId },
-      })
+    // 解构出id，创建时排除id
+    const { id, ...createData } = createCouponDto
 
-      if (!category) {
-        throw new NotFoundException(`分类ID ${createCouponDto.categoryId} 不存在`)
-      }
-    }
-
-    // 创建优惠券
-    const coupon = await this.prisma.coupon.create({
-      data: {
-        name: createCouponDto.name,
-        description: createCouponDto.description,
-        amount: createCouponDto.amount,
-        minAmount: createCouponDto.minAmount,
-        startTime: createCouponDto.startTime,
-        endTime: createCouponDto.endTime,
-        type: createCouponDto.type ?? 0,
-        categoryId: createCouponDto.categoryId,
-        goodsId: createCouponDto.goodsId,
-      },
+    // 创建或更新优惠券
+    const coupon = await this.prisma.coupon.upsert({
+      where: { id: id ?? -1 }, // 如果id不存在，使用-1确保不会匹配任何记录
+      update: createCouponDto,
+      create: createData,
     })
 
     return {
       data: coupon,
-      message: '优惠券创建成功',
+      message: id ? '优惠券更新成功' : '优惠券创建成功',
     }
   }
 
@@ -131,17 +123,6 @@ export class CouponService {
 
       if (!goods) {
         throw new NotFoundException(`商品ID ${updateCouponDto.goodsId} 不存在`)
-      }
-    }
-
-    // 如果更新了分类ID，检查分类是否存在
-    if (updateCouponDto.categoryId) {
-      const category = await this.prisma.category.findUnique({
-        where: { id: updateCouponDto.categoryId },
-      })
-
-      if (!category) {
-        throw new NotFoundException(`分类ID ${updateCouponDto.categoryId} 不存在`)
       }
     }
 
@@ -331,6 +312,35 @@ export class CouponService {
         ...coupon,
         claimed: userClaimedCouponIds.includes(coupon.id),
       })),
+    }
+  }
+
+  // 批量更新，覆盖商品优惠券数据
+  async batchUpdate(data: any) {
+    console.log(data)
+    const { goodsId, coupon } = data
+
+    // 删除所有关联的 Coupon 记录
+    await this.prisma.coupon.deleteMany({
+      where: {
+        goodsId,
+      },
+    })
+
+    // 创建新的 Coupon 记录
+    try {
+      await this.prisma.coupon.createMany({
+        data: coupon.map((c: CouponResponseDto) => ({
+          ...c,
+          goodsId,
+        })),
+      })
+
+      return {
+        message: '批量更新成功！',
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('服务器错误！')
     }
   }
 }

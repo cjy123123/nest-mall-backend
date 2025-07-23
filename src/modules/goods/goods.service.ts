@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { CreateGoodsDto, UpdateGoodsDto, GoodsQueryDto, GoodsListResponseDto } from './goods.dto'
+import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class GoodsService {
@@ -14,21 +15,22 @@ export class GoodsService {
   }
 
   async findAll(query: GoodsQueryDto) {
-    const { page = 1, pageSize = 100, keyword, categoryId } = query
-
+    const { page = 1, pageSize = 100, title, categoryId, isOnSale } = query
+    console.log(isOnSale)
     // 构建查询条件
-    const where: any = {}
+    const where: Prisma.GoodsWhereInput = {}
 
-    if (keyword) {
-      where.title = { contains: keyword }
+    if (title) {
+      where.title = { contains: title }
     }
 
     if (categoryId) {
       where.categoryId = categoryId
     }
 
-    // 构建排序条件
-    const orderBy: any = { id: 'desc' }
+    if (isOnSale !== undefined) {
+      where.isOnSale = !!isOnSale
+    }
 
     // 查询总数
     const total = await this.prisma.goods.count({ where })
@@ -38,7 +40,7 @@ export class GoodsService {
       where,
       skip: (page - 1) * pageSize,
       take: pageSize,
-      orderBy,
+      orderBy: { id: 'desc' },
       include: {
         category: true,
         specification: true,

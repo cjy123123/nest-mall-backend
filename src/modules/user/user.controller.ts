@@ -38,7 +38,6 @@ export class UserController {
 
   @Get()
   @ApiOperation({ summary: '获取所有用户' })
-  @ApiQuery({ type: UserPageParams })
   @ApiResponse({ type: UserListResponse })
   findAll(@Query() query: UserPageParams) {
     return this.userService.findAll(query)

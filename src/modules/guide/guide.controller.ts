@@ -11,8 +11,15 @@ import {
 } from '@nestjs/common'
 import { GuideService } from './guide.service'
 import { ApiBody, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { CreateGuideDto, GuideLikeDto, UpdateGuideDto } from './guide.dto'
-import { ResponseDto } from '@/common/dto/response.dto'
+import {
+  CreateGuideDto,
+  GuideItem,
+  GuideItemResponse,
+  GuideLikeDto,
+  GuideListResponse,
+  UpdateGuideDto,
+} from './guide.dto'
+import { PageParams, ResponseDto } from '@/common/dto/response.dto'
 
 @ApiTags('乐游攻略')
 @Controller('guide')
@@ -21,12 +28,14 @@ export class GuideController {
 
   @Get()
   @ApiOperation({ description: '获取攻略列表' })
-  findAll() {
-    return this.guideService.findAll()
+  @ApiResponse({ type: GuideListResponse })
+  findAll(@Query() query: PageParams) {
+    return this.guideService.findAll(query)
   }
 
   @Get(':id')
   @ApiOperation({ description: '获取攻略详情' })
+  @ApiResponse({ type: GuideItemResponse })
   @ApiParam({ name: 'id', description: '攻略id' })
   @ApiQuery({ name: 'userId', description: '用户id' })
   findOne(@Param('id', ParseIntPipe) id: number, @Query('userId', ParseIntPipe) userId: number) {

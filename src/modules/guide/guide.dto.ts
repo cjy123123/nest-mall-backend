@@ -63,6 +63,12 @@ export class GuideItem {
 
   @ApiProperty({ description: '当前用户是否点赞' })
   isLiked: boolean
+
+  @ApiProperty({ description: '创建时间' })
+  createAt: Date
+
+  @ApiProperty({ description: '更新时间' })
+  updateAt: Date
 }
 
 export class GuideItemResponse extends BaseResponseDto {

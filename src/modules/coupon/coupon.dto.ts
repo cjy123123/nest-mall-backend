@@ -19,6 +19,10 @@ export enum USER_COUPON_STATUS {
 }
 
 export class CreateCouponDto {
+  @ApiPropertyOptional({ description: '优惠券id', example: 1 })
+  @IsOptional()
+  id?: number
+
   @ApiProperty({ description: '优惠券名称', example: '满100减10' })
   @IsString()
   @IsNotEmpty()
@@ -48,22 +52,6 @@ export class CreateCouponDto {
   @IsDate()
   @Type(() => Date)
   endTime: Date
-
-  @ApiPropertyOptional({ description: '优惠券类型：0-通用，1-商品分类', example: 0, default: 0 })
-  @IsInt()
-  @IsOptional()
-  @Type(() => Number)
-  type?: number = 0
-
-  @ApiPropertyOptional({
-    description: '可用商品分类ID（当type=1时有效）',
-    example: 1,
-    required: false,
-  })
-  @IsInt()
-  @IsOptional()
-  @Type(() => Number)
-  categoryId?: number
 
   @ApiProperty({ description: '关联的商品ID（用于领取优惠券）', example: 1 })
   @IsInt()
@@ -108,10 +96,10 @@ export class CouponResponseDto {
   description?: string
 
   @ApiProperty({ description: '优惠金额', example: '10.00' })
-  amount: string
+  amount: number
 
   @ApiProperty({ description: '最低使用金额', example: '100.00' })
-  minAmount: string
+  minAmount: number
 
   @ApiProperty({ description: '生效时间', example: '2023-01-01T00:00:00Z' })
   startTime: Date

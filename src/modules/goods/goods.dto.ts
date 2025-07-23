@@ -13,6 +13,8 @@ import {
 import { BaseListResponseDto, BaseResponseDto } from '@/common/dto/response.dto'
 import { GoodsSpecResponseDto } from '@/modules/goods-spec/goods-spec.dto'
 import { CategoryItemDto } from '@/modules/category/category.dto'
+import { CouponResponseDto } from '../coupon/coupon.dto'
+import { Type } from 'class-transformer'
 
 export class CreateGoodsDto {
   @ApiProperty({ description: '商品标题（商品名称）', default: '木作体验' })
@@ -52,13 +54,17 @@ export class GoodsQueryDto {
   @ApiPropertyOptional({ description: '商品标题关键词' })
   @IsOptional()
   @IsString()
-  keyword?: string
+  title?: string
 
-  @ApiPropertyOptional({ description: '商品分类ID' })
+  @ApiPropertyOptional({ description: '商品分类id' })
   @IsOptional()
-  @IsInt()
-  @IsPositive()
+  @IsNumber()
   categoryId?: number
+
+  @ApiPropertyOptional({ description: '商品是否上架', type: Boolean })
+  @IsOptional()
+  @IsNumber()
+  isOnSale?: number
 }
 
 export class GoodsResponseDto {
@@ -88,6 +94,9 @@ export class GoodsResponseDto {
 
   @ApiProperty({ description: '商品分类ID' })
   categoryId: number
+
+  @ApiProperty({ description: '可领取的优惠券', type: [CouponResponseDto] })
+  coupon: CouponResponseDto[]
 
   @ApiProperty({ description: '商品规格数组', type: [GoodsSpecResponseDto] })
   specification: GoodsSpecResponseDto[]
