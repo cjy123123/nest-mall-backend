@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { create } from '.'
+import { create, faker } from '.'
 
 export const mockUser = () =>
   create(10, async (prisma) => {

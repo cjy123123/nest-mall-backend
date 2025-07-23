@@ -1,5 +1,4 @@
-import { create } from '.'
-import { fakerZH_CN as faker } from '@faker-js/faker'
+import { create, faker } from '.'
 
 export const mockCategory = () =>
   create(10, async (prisma) => {

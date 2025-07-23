@@ -1,7 +1,5 @@
-import { nanoid } from 'nanoid'
-import { create } from '.'
 import dayjs from 'dayjs'
-import { fakerZH_CN as faker } from '@faker-js/faker'
+import { create, faker } from '.'
 
 export const mockCoupon = () =>
   create(100, async (prisma) => {
@@ -11,8 +9,8 @@ export const mockCoupon = () =>
         description: '初次见面',
         amount: 10,
         minAmount: 50,
-        startTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-        endTime: dayjs().add(1, 'week').format('YYYY-MM-DD HH:mm:ss'),
+        startTime: dayjs().toISOString(),
+        endTime: dayjs().add(1, 'week').toISOString(),
         goodsId: faker.number.int({ min: 1, max: 50 }),
       },
     })
